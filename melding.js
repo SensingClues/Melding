@@ -138,7 +138,5 @@
       msgBox.classList.add('error');
       msgBox.textContent = '❌ Error: ' + err.message;
     }
-  });
+  })();
 window.logout = logout;
-
-

@@ -1,6 +1,5 @@
 <!-- ✅ Enhanced Cluey Observation Form -->
 
-<script>
   const access = localStorage.getItem('sc_token') || sessionStorage.getItem('sc_token');
   const refresh = localStorage.getItem('sc_refresh') || sessionStorage.getItem('sc_refresh');
 
@@ -15,9 +14,8 @@
     sessionStorage.removeItem('sc_refresh');
     window.location.href = 'https://www.sensingclues.org/meldinglogintemp';
   }
-</script>
   
-<script>
+
   const msgBox = document.getElementById('formMsg');
 
   function previewImage() {
@@ -141,5 +139,6 @@
       msgBox.textContent = '❌ Error: ' + err.message;
     }
   });
-</script>
+window.logout = logout;
+
 

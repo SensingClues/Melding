@@ -8,12 +8,14 @@
   }
 
   function logout() {
-    localStorage.removeItem('sc_token');
-    localStorage.removeItem('sc_refresh');
-    sessionStorage.removeItem('sc_token');
-    sessionStorage.removeItem('sc_refresh');
-    window.location.href = 'https://www.sensingclues.org/meldinglogintemp';
-  }
+  localStorage.removeItem('sc_token');
+  localStorage.removeItem('sc_refresh');
+  sessionStorage.removeItem('sc_token');
+  sessionStorage.removeItem('sc_refresh');
+  // ✅ Force redirect
+  window.location.assign('https://www.sensingclues.org/MeldingLoginTemp');
+}
+
   
 
   const msgBox = document.getElementById('formMsg');

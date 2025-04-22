@@ -1,34 +1,36 @@
 (() => {
-  // 🚫 Prevent redirect loops in Squarespace editor or on login page
-  const isInEditor = window.self !== window.top;
+  // =======================
+  // 🧠 LOOP PROTECTION
+  // =======================
+  document.addEventListener("DOMContentLoaded", () => {
+    const token = localStorage.getItem("sc_token") || sessionStorage.getItem("sc_token");
+    const path = window.location.pathname.toLowerCase();
+    const isLoginPage = path.includes("meldinglogintemp");
 
-const url = window.location.href.toLowerCase();
-const token = localStorage.getItem("sc_token") || sessionStorage.getItem("sc_token");
+    setTimeout(() => {
+      const isInEditor = !!document.querySelector("[data-sqs-edit-mode]");
 
-const isSquarespaceEditMode = window.Squarespace && Squarespace.frameId !== undefined;
-const isLoginPage = url.includes("meldinglogintemp");
+      if (!token && !isLoginPage && !isInEditor) {
+        console.log("🔁 Redirecting to login page...");
+        window.location.href = "/meldinglogintemp";
+      } else {
+        console.log("✅ No redirect needed.");
+      }
+    }, 300);
+  });
 
-// 🔐 Redirect only when not logged in, not editing, not already on login page
-if (!token && !isLoginPage && !isSquarespaceEditMode) {
-  window.location.href = "/meldinglogintemp";
-}
-
-  
-if (!token && !isInEditor && !isLoginPage) {
-  window.location.href = "/meldinglogintemp";
-}
- {
-    window.location.href = "/meldinglogintemp";
-  }
-
-  // ✅ Global logout function
+  // =======================
+  // 🧹 LOGOUT
+  // =======================
   window.logout = function logout() {
     localStorage.removeItem("sc_token");
     sessionStorage.removeItem("sc_token");
     window.location.href = "/meldinglogintemp";
   };
 
-  // ✅ Image preview logic
+  // =======================
+  // 🖼️ IMAGE PREVIEW
+  // =======================
   window.previewImage = function () {
     const input = document.getElementById("image");
     const preview = document.getElementById("imagePreview");
@@ -44,7 +46,9 @@ if (!token && !isInEditor && !isLoginPage) {
     }
   };
 
-  // ✅ OSM map loader
+  // =======================
+  // 🗺️ MAP PREVIEW
+  // =======================
   window.loadMap = function (lat, lng) {
     const mapDiv = document.getElementById("map");
     mapDiv.innerHTML = `<iframe width="100%" height="200" frameborder="0" style="border:0"
@@ -52,7 +56,9 @@ if (!token && !isInEditor && !isLoginPage) {
     </iframe>`;
   };
 
-  // ✅ Form submission for observation
+  // =======================
+  // 📤 OBSERVATION FORM
+  // =======================
   const form = document.getElementById("observationForm");
   if (form) {
     const msgBox = document.getElementById("formMsg");
@@ -62,7 +68,7 @@ if (!token && !isInEditor && !isLoginPage) {
       msgBox.textContent = "";
       msgBox.className = "msg";
 
-      let token = localStorage.getItem("sc_token") || sessionStorage.getItem("sc_token");
+      const token = localStorage.getItem("sc_token") || sessionStorage.getItem("sc_token");
       if (!token) {
         msgBox.classList.add("error");
         msgBox.textContent = "❌ Not authenticated.";
@@ -122,25 +128,11 @@ if (!token && !isInEditor && !isLoginPage) {
       }
     });
   }
-
-  document.addEventListener("DOMContentLoaded", () => {
-  const url = window.location.href.toLowerCase();
-  const token = localStorage.getItem("sc_token") || sessionStorage.getItem("sc_token");
-
-  const isLoginPage = url.includes("meldinglogintemp");
-
-  // Wait 100ms to allow Squarespace editor to inject
-  setTimeout(() => {
-    const isEditor = !!document.querySelector("[data-sqs-edit-mode]");
-
-    if (!token && !isLoginPage && !isEditor) {
-      window.location.href = "/meldinglogintemp";
-    }
-  }, 100);
-});
 })();
 
-// ✅ Outside IIFE — Global Login Flow Hook
+// =======================
+// 🔐 LOGIN HANDLER
+// =======================
 window.handleLogin = async function handleLogin() {
   const username = document.getElementById("username").value.trim();
   const password = document.getElementById("password").value;
@@ -157,7 +149,9 @@ window.handleLogin = async function handleLogin() {
   }
 };
 
-// ✅ Login helper function
+// =======================
+// 🔑 AUTH REQUEST
+// =======================
 async function loginToCluey(username, password) {
   const API_BASE_URL = "https://cluey.sensingclues.org/v1";
 

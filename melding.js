@@ -1,10 +1,19 @@
 (() => {
   // 🚫 Prevent redirect loops in Squarespace editor or on login page
-  const token = localStorage.getItem("sc_token") || sessionStorage.getItem("sc_token");
   const isInEditor = window.self !== window.top;
 
- const isLoginPage = /meldinglogintemp/i.test(window.location.href);
+const url = window.location.href.toLowerCase();
+const token = localStorage.getItem("sc_token") || sessionStorage.getItem("sc_token");
 
+const isSquarespaceEditMode = window.Squarespace && Squarespace.frameId !== undefined;
+const isLoginPage = url.includes("meldinglogintemp");
+
+// 🔐 Redirect only when not logged in, not editing, not already on login page
+if (!token && !isLoginPage && !isSquarespaceEditMode) {
+  window.location.href = "/meldinglogintemp";
+}
+
+  
 if (!token && !isInEditor && !isLoginPage) {
   window.location.href = "/meldinglogintemp";
 }

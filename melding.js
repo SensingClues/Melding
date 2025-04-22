@@ -122,6 +122,22 @@ if (!token && !isInEditor && !isLoginPage) {
       }
     });
   }
+
+  document.addEventListener("DOMContentLoaded", () => {
+  const url = window.location.href.toLowerCase();
+  const token = localStorage.getItem("sc_token") || sessionStorage.getItem("sc_token");
+
+  const isLoginPage = url.includes("meldinglogintemp");
+
+  // Wait 100ms to allow Squarespace editor to inject
+  setTimeout(() => {
+    const isEditor = !!document.querySelector("[data-sqs-edit-mode]");
+
+    if (!token && !isLoginPage && !isEditor) {
+      window.location.href = "/meldinglogintemp";
+    }
+  }, 100);
+});
 })();
 
 // ✅ Outside IIFE — Global Login Flow Hook

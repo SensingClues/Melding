@@ -105,3 +105,21 @@
     </iframe>`;
   };
 })();
+
+async function handleLogin() {
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value;
+  const msgBox = document.getElementById("loginMsg");
+
+  msgBox.textContent = "🔄 Logging in...";
+
+  try {
+    const token = await loginToCluey(username, password);
+    localStorage.setItem("sc_token", token);
+    window.location.href = "/melding";
+  } catch (err) {
+    console.error("Login failed:", err.message);
+    msgBox.textContent = "❌ " + err.message;
+  }
+}
+

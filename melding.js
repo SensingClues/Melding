@@ -1,11 +1,17 @@
 <!-- ✅ Enhanced Cluey Observation Form -->
 
-  const access = localStorage.getItem('sc_token') || sessionStorage.getItem('sc_token');
   const refresh = localStorage.getItem('sc_refresh') || sessionStorage.getItem('sc_refresh');
 
-  if (!access) {
-    window.location.href = 'https://www.sensingclues.org/meldinglogintemp';
-  }
+const access = localStorage.getItem('sc_token') || sessionStorage.getItem('sc_token');
+
+// ✅ Prevent infinite loop: only redirect if NOT already on the login page
+if (
+  !access &&
+  !window.location.href.includes('meldinglogintemp') &&
+  !window.location.href.includes('MeldingLoginTemp')
+) {
+  window.location.href = 'https://www.sensingclues.org/meldinglogintemp';
+}
 
   function logout() {
   // Clear both storage types

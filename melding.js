@@ -1,23 +1,4 @@
 (() => {
-  // =======================
-  // 🧠 LOOP PROTECTION
-  // =======================
-  document.addEventListener("DOMContentLoaded", () => {
-    const token = localStorage.getItem("sc_token") || sessionStorage.getItem("sc_token");
-    const path = window.location.pathname.toLowerCase();
-    const isLoginPage = path.includes("meldinglogintemp");
-
-    setTimeout(() => {
-      const isInEditor = !!document.querySelector("[data-sqs-edit-mode]");
-
-      if (!token && !isLoginPage && !isInEditor) {
-        console.log("🔁 Redirecting to login page...");
-        window.location.href = "/meldinglogintemp";
-      } else {
-        console.log("✅ No redirect needed.");
-      }
-    }, 300);
-  });
 
   // =======================
   // 🧹 LOGOUT

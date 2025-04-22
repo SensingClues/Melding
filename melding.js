@@ -8,15 +8,18 @@
   }
 
   function logout() {
+  // Clear both storage types
   localStorage.removeItem('sc_token');
   localStorage.removeItem('sc_refresh');
   sessionStorage.removeItem('sc_token');
   sessionStorage.removeItem('sc_refresh');
-  // ✅ Force redirect
+
+  // ✅ Redirect to correct login page
   window.location.assign('https://www.sensingclues.org/MeldingLoginTemp');
 }
 
-  
+// ⬇️ Make it callable from HTML onclick="logout()"
+window.logout = logout;  
 
   const msgBox = document.getElementById('formMsg');
 

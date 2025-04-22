@@ -3,11 +3,12 @@
   const token = localStorage.getItem("sc_token") || sessionStorage.getItem("sc_token");
   const isInEditor = window.self !== window.top;
 
-  if (
-    !token &&
-    !isInEditor &&
-    !window.location.href.includes("meldinglogintemp")
-  ) {
+ const isLoginPage = /meldinglogintemp/i.test(window.location.href);
+
+if (!token && !isInEditor && !isLoginPage) {
+  window.location.href = "/meldinglogintemp";
+}
+ {
     window.location.href = "/meldinglogintemp";
   }
 
